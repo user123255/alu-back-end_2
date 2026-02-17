@@ -1,6 +1,7 @@
 #!/usr/bin/python3
 """
-Gather data from an API for a given employee ID.
+Gather data from an API for a given employee ID and display
+their TODO list progress.
 """
 
 import requests
@@ -14,6 +15,7 @@ if __name__ == "__main__":
         "https://jsonplaceholder.typicode.com/users/{}"
         .format(employee_id)
     )
+
     todos_url = (
         "https://jsonplaceholder.typicode.com/users/{}/todos"
         .format(employee_id)
