@@ -13,7 +13,6 @@ if __name__ == "__main__":
     base_url = "https://jsonplaceholder.typicode.com"
 
     user_url = f"{base_url}/users/{employee_id}"
-
     todos_url = f"{base_url}/users/{employee_id}/todos"
 
     user_response = requests.get(user_url)
@@ -34,7 +33,7 @@ if __name__ == "__main__":
     number_done_tasks = len(done_tasks)
 
     print(
-        f"Employee {employee_name} is done with tasks"
+        f"Employee {employee_name} is done with tasks "
         f"({number_done_tasks}/{total_tasks}):"
     )
 
