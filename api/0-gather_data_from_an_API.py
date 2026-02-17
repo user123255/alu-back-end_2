@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 """
-Gather data from an API for a given employee ID and display
-their TODO list progress.
+Gather data from an API for a given employee ID.
+
+Display the employee TODO list progress.
 """
 
 import requests
@@ -12,12 +13,12 @@ if __name__ == "__main__":
     employee_id = sys.argv[1]
 
     user_url = (
-        f"https://jsonplaceholder.typicode.com/users/"
+        "https://jsonplaceholder.typicode.com/users/"
         f"{employee_id}"
     )
 
     todos_url = (
-        f"https://jsonplaceholder.typicode.com/users/"
+        "https://jsonplaceholder.typicode.com/users/"
         f"{employee_id}/todos"
     )
 
