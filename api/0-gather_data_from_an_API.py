@@ -11,13 +11,13 @@ import requests
 def get_employee_todos(employee_id):
     """Fetch employee info and TODOs, then print completed tasks."""
     base_url = "https://jsonplaceholder.typicode.com"
-    user_url = f"{base_url}/users/{employee_id}"
-    todos_url = f"{base_url}/todos?userId={employee_id}"
+    user_url = "{}/users/{}".format(base_url, employee_id)
+    todos_url = "{}/todos?userId={}".format(base_url, employee_id)
 
     # Get employee info
     user_resp = requests.get(user_url)
     if user_resp.status_code != 200:
-        print(f"Error fetching user with ID {employee_id}")
+        print("Error fetching user with ID {}".format(employee_id))
         return
 
     employee = user_resp.json()
@@ -26,7 +26,7 @@ def get_employee_todos(employee_id):
     # Get todos
     todos_resp = requests.get(todos_url)
     if todos_resp.status_code != 200:
-        print(f"Error fetching todos for user ID {employee_id}")
+        print("Error fetching todos for user ID {}".format(employee_id))
         return
 
     todos = todos_resp.json()
@@ -34,12 +34,13 @@ def get_employee_todos(employee_id):
     done_tasks = [t for t in todos if t.get("completed")]
 
     # Print output in the required format
-    print(
-        f"Employee {employee_name} is done with tasks("
-        f"{len(done_tasks)}/{total_tasks}):"
+    header = "Employee {} is done with tasks({}/{})".format(
+        employee_name, len(done_tasks), total_tasks
     )
+    print(header + ":")
     for task in done_tasks:
-        print(f"\t {task.get('title')}")
+        print("\t {}".format(task.get("title")))
+
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
