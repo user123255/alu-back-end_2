@@ -33,7 +33,7 @@ def get_employee_todos(employee_id):
     total_tasks = len(todos)
     done_tasks = [t for t in todos if t.get("completed")]
 
-    # Print output in the required format (PEP8-compliant)
+    # Print output in the required format
     header = (
         f"Employee {employee_name} is done with tasks("
         f"{len(done_tasks)}/{total_tasks})"
