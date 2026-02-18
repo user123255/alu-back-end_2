@@ -1,8 +1,3 @@
-#!/usr/bin/python3
-"""
-Gather data from an API for a given employee ID.
-"""
-
 import sys
 import requests
 
@@ -12,11 +7,20 @@ if __name__ == "__main__":
         sys.exit(1)
 
     employee_id = sys.argv[1]
-    base_url =
-         "https://jsonplaceholder.typicode.com"
 
-    user_url = "{}/users/{}".format(base_url, employee_id)
-    todos_url = "{}/users/{}/todos".format(base_url, employee_id)
+    base_url = (
+        "https://jsonplaceholder.typicode.com"
+    )
+
+    user_url = "{}/users/{}".format(
+        base_url,
+        employee_id
+    )
+
+    todos_url = "{}/users/{}/todos".format(
+        base_url,
+        employee_id
+    )
 
     user_response = requests.get(user_url)
     user_data = user_response.json()
