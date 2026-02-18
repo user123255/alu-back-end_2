@@ -41,7 +41,6 @@ def get_employee_todos(employee_id):
     for task in done_tasks:
         print(f"\t {task.get('title')}")
 
-
 if __name__ == "__main__":
     if len(sys.argv) != 2:
         print("Usage: python3 0-gather_data_from_an_API.py <employee_id>")
