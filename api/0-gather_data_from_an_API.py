@@ -12,7 +12,8 @@ if __name__ == "__main__":
         sys.exit(1)
 
     employee_id = sys.argv[1]
-    base_url = "https://jsonplaceholder.typicode.com"
+    base_url =
+         "https://jsonplaceholder.typicode.com"
 
     user_url = "{}/users/{}".format(base_url, employee_id)
     todos_url = "{}/users/{}/todos".format(base_url, employee_id)
