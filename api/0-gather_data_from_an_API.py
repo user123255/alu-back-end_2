@@ -1,50 +1,50 @@
-import sys
+#!/usr/bin/python3
+"""
+Returns information about an employee's TODO list progress using a REST API.
+"""
 import requests
+import sys
 
 
-if __name__ == "__main__":
-    if len(sys.argv) != 2:
-        sys.exit(1)
+def gather_data():
+    """Fetches and displays employee progress."""
+    if len(sys.argv) < 2:
+        return
 
-    employee_id = sys.argv[1]
+    try:
+        employee_id = int(sys.argv[1])
+    except ValueError:
+        return
 
-    base_url = (
-        "https://jsonplaceholder.typicode.com"
-    )
+    base_url = "https://jsonplaceholder.typicode.com"
+    user_url = f"{base_url}/users/{employee_id}"
+    todos_url = f"{base_url}/todos?userId={employee_id}"
 
-    user_url = "{}/users/{}".format(
-        base_url,
-        employee_id
-    )
-
-    todos_url = "{}/users/{}/todos".format(
-        base_url,
-        employee_id
-    )
-
+    # Fetch user data
     user_response = requests.get(user_url)
     user_data = user_response.json()
     employee_name = user_data.get("name")
 
+    # Fetch TODO list
     todos_response = requests.get(todos_url)
     todos_data = todos_response.json()
 
-    total_tasks = len(todos_data)
-
-    done_tasks = [
-        task for task in todos_data
-        if task.get("completed") is True
+    # Filter completed tasks using multi-line list comprehension for PEP8
+    completed_tasks = [
+        task.get("title") for task in todos_data if task.get("completed")
     ]
+    total_tasks = len(todos_data)
+    done_count = len(completed_tasks)
 
-    number_done_tasks = len(done_tasks)
+    # Print summary header
+    print("Employee {} is done with tasks({}/{}):".format(
+        employee_name, done_count, total_tasks
+    ))
 
-    print(
-        "Employee {} is done with tasks ({}/{}):".format(
-            employee_name,
-            number_done_tasks,
-            total_tasks
-        )
-    )
+    # Print completed task titles
+    for title in completed_tasks:
+        print(f"\t {title}")
 
-    for task in done_tasks:
-        print("\t {}".format(task.get("title")))
+
+if __name__ == "__main__":
+    gather_data()
