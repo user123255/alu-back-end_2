@@ -1,88 +1,49 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
-0-gather_data_from_an_API.py
+Fetches and displays TODO list progress for a given employee ID.
 
-Fetch TODO list progress for a given
-employee ID.
+Requirements:
+- Uses requests module
+- Accepts employee ID as a parameter
+- Displays progress in the format:
+  Employee EMPLOYEE_NAME is done with tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):
+     TASK_TITLE
 """
 
-import sys
 import requests
-
-
-def get_employee_todos(employee_id):
-    """
-    Fetch employee information and TODOs,
-    then print completed tasks.
-    """
-    base_url = "https://jsonplaceholder.typicode.com"
-
-    user_url = (
-        f"{base_url}/users/{employee_id}"
-    )
-    todos_url = (
-        f"{base_url}/todos"
-        f"?userId={employee_id}"
-    )
-
-    # Get employee info
-    user_resp = requests.get(user_url)
-    if user_resp.status_code != 200:
-        print(
-            f"Error fetching user with ID {employee_id}"
-        )
-        return
-
-    employee = user_resp.json()
-    employee_name = employee.get(
-        "name",
-        "Unknown"
-    )
-
-    # Get todos
-    todos_resp = requests.get(todos_url)
-    if todos_resp.status_code != 200:
-        print(
-            f"Error fetching todos for user ID "
-            f"{employee_id}"
-        )
-        return
-
-    todos = todos_resp.json()
-    total_tasks = len(todos)
-    done_tasks = [
-        task for task in todos
-        if task.get("completed")
-    ]
-
-    header = (
-        f"Employee {employee_name} "
-        f"is done with tasks("
-        f"{len(done_tasks)}/{total_tasks})"
-    )
-    print(header + ":")
-
-    for task in done_tasks:
-        print(
-            f"\t {task.get('title')}"
-        )
+import sys
 
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print(
-            "Usage: python3 "
-            "0-gather_data_from_an_API.py "
-            "<employee_id>"
-        )
+        print("Usage: {} <employee_id>".format(sys.argv[0]))
         sys.exit(1)
 
-    try:
-        emp_id = int(sys.argv[1])
-    except ValueError:
-        print(
-            "Error: employee_id must be an integer"
-        )
-        sys.exit(1)
+    employee_id = sys.argv[1]
 
-    get_employee_todos(emp_id)
+    # Define API endpoints
+    base_url = "https://jsonplaceholder.typicode.com/"
+    user_url = "{}users/{}".format(base_url, employee_id)
+    todos_url = "{}todos?userId={}".format(base_url, employee_id)
+
+    # Fetch user and todo data
+    user = requests.get(user_url).json()
+    todos = requests.get(todos_url).json()
+
+    employee_name = user.get("name")
+
+    # Calculate task stats
+    total_tasks = len(todos)
+    done_tasks = [task for task in todos if task.get("completed") is True]
+    number_of_done_tasks = len(done_tasks)
+
+    # Print header line
+    print(
+        "Employee {} is done with tasks({}/{}):".format(
+            employee_name, number_of_done_tasks, total_tasks
+        )
+    )
+
+    # Print titles of completed tasks
+    for task in done_tasks:
+        print("\t {}".format(task.get("title")))
