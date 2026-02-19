@@ -9,7 +9,9 @@ import requests
 
 
 def get_employee_todos(employee_id):
-    """Fetch employee info and TODOs, then print completed tasks."""
+    """Fetch employee info and TODOs,
+    then print completed tasks.
+    """
     base_url = "https://jsonplaceholder.typicode.com"
 
     user_url = (
