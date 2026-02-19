@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 0-gather_data_from_an_API.py
-Fetches TODO list progress for a given employee ID.
+Fetches TODO list progress for a given
+employee ID.
 """
 
 import sys
