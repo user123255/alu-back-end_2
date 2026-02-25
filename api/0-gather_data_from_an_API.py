@@ -6,7 +6,9 @@ Requirements:
 - Uses requests module
 - Accepts employee ID as a parameter
 - Displays progress in the format:
-  Employee EMPLOYEE_NAME is done with tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):
+
+Employee EMPLOYEE_NAME is done with
+tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):
      TASK_TITLE
 """
 
@@ -34,13 +36,17 @@ if __name__ == "__main__":
 
     # Calculate task stats
     total_tasks = len(todos)
-    done_tasks = [task for task in todos if task.get("completed") is True]
+    done_tasks = [
+        task for task in todos if task.get("completed") is True
+    ]
     number_of_done_tasks = len(done_tasks)
 
     # Print header line
     print(
         "Employee {} is done with tasks({}/{}):".format(
-            employee_name, number_of_done_tasks, total_tasks
+            employee_name,
+            number_of_done_tasks,
+            total_tasks
         )
     )
 
