@@ -6,9 +6,8 @@ Requirements:
 - Uses requests module
 - Accepts employee ID as a parameter
 - Displays progress in the format:
-  Employee EMPLOYEE_NAME is done with tasks(
-      NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):
-      TASK_TITLE
+  Employee EMPLOYEE_NAME is done with tasks(NUMBER_OF_DONE_TASKS/TOTAL_NUMBER_OF_TASKS):
+     TASK_TITLE
 """
 
 import requests
@@ -17,43 +16,34 @@ import sys
 
 if __name__ == "__main__":
     if len(sys.argv) != 2:
-        print(f"Usage: {sys.argv[0]} <employee_id>")
+        print("Usage: {} <employee_id>".format(sys.argv[0]))
         sys.exit(1)
 
     employee_id = sys.argv[1]
 
-    # Base API URL
-    base_url = "https://jsonplaceholder.typicode.com"
+    # Define API endpoints
+    base_url = "https://jsonplaceholder.typicode.com/"
+    user_url = "{}users/{}".format(base_url, employee_id)
+    todos_url = "{}todos?userId={}".format(base_url, employee_id)
 
-    # Construct endpoints
-    user_url = f"{base_url}/users/{employee_id}"
-    todos_url = f"{base_url}/todos?userId={employee_id}"
-
-    # Fetch user and todos
-    user_response = requests.get(user_url)
-    todos_response = requests.get(todos_url)
-
-    # Check for request success
-    if user_response.status_code != 200 or todos_response.status_code != 200:
-        print("Failed to fetch data from API.")
-        sys.exit(1)
-
-    user = user_response.json()
-    todos = todos_response.json()
+    # Fetch user and todo data
+    user = requests.get(user_url).json()
+    todos = requests.get(todos_url).json()
 
     employee_name = user.get("name")
 
-    # Filter completed tasks
-    done_tasks = [task for task in todos if task.get("completed")]
+    # Calculate task stats
     total_tasks = len(todos)
+    done_tasks = [task for task in todos if task.get("completed") is True]
     number_of_done_tasks = len(done_tasks)
 
-    # Print summary
+    # Print header line
     print(
-        f"Employee {employee_name} is done with tasks("
-        f"{number_of_done_tasks}/{total_tasks}):"
+        "Employee {} is done with tasks({}/{}):".format(
+            employee_name, number_of_done_tasks, total_tasks
+        )
     )
 
-    # Print completed task titles
+    # Print titles of completed tasks
     for task in done_tasks:
-        print(f"\t{task.get('title')}")
+        print("\t {}".format(task.get("title")))
